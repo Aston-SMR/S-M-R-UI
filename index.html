@@ -239,10 +239,15 @@
   .pick-tie { color: var(--win-tie); }
   .pick-pending { color: #64748b; }
 
+  .buttons-wrap {
+    margin-top: 16px;
+  }
+
   .buttons {
     margin-top: 16px;
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-rows: repeat(2, auto);
     gap: 6px;
     width: 100%;
   }
@@ -333,7 +338,7 @@
     .score-badge { min-width: 84px; font-size: 14px; padding: 7px 10px; }
     .detail-text { font-size: 14px; }
     .smr-grid { grid-template-columns: 1fr; }
-    .buttons { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
+    .buttons { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; grid-template-rows: repeat(2, auto); }
     button.key { min-height: 42px; padding: 8px 2px; font-size: 13px; border-radius: 10px; }
     .clear-btn-inline, .next-btn, .history-clear-btn { padding: 6px 9px; font-size: 12px; }
     .smr-pick { font-size: 20px; }
@@ -407,7 +412,10 @@
       </div>
     </div>
 
-    <div class="buttons" id="buttons"></div>
+    <div class="buttons-wrap">
+      <div class="section-title">牌面鍵</div>
+      <div class="buttons" id="buttons"></div>
+    </div>
 
     <div class="history-card">
       <div class="history-head">
@@ -771,6 +779,9 @@ function clearBoard() {
 
 render();
 renderHistory();
+
+// 確保牌面鍵固定為兩排：A~7 / 8 9 10 J Q K 不補
 </script>
 </body>
 </html>
+
