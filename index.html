@@ -548,19 +548,27 @@ function evaluateS(allCards) {
 
 function evaluateM(playerCards, bankerCards, allCards) {
   if (playerCards.length < 2 || bankerCards.length < 2) {
-    return { pick: '待輸入', meta: '點差：-\n公牌奇偶：-', raw: null };
+    return { pick: '待輸入', meta: '點差：-
+公牌奇偶：-', raw: null };
   }
-  const playerA9 = playerCards.reduce((s, c) => s + getValue(c), 0) % 10;
-  const bankerA9 = bankerCards.reduce((s, c) => s + getValue(c), 0) % 10;
-  const diff = playerA9 - bankerA9;
+
+  const playerTotalRaw = playerCards.reduce((s, c) => s + getValue(c), 0);
+  const bankerTotalRaw = bankerCards.reduce((s, c) => s + getValue(c), 0);
+  const diff = playerTotalRaw - bankerTotalRaw;
   const sign1 = diff >= 0 ? '正' : '負';
+
   const publicCount = allCards.filter(c => ['10', 'J', 'Q', 'K'].includes(c)).length;
   const sign2 = publicCount % 2 === 0 ? '正' : '負';
-  const pick = sign1 === sign2 ? '閒' : '莊';
+
+  const finalSign = sign1 === sign2 ? '正' : '負';
+  const pick = finalSign === '正' ? '閒' : '莊';
+
   return {
     pick,
-    meta: `點差：${diff}（閒${playerA9} - 莊${bankerA9}）\n公牌張數：${publicCount}（${sign2}）`,
-    raw: { diff, publicCount, playerA9, bankerA9 }
+    meta: `點差：${diff}（閒${playerTotalRaw} - 莊${bankerTotalRaw}）
+公牌張數：${publicCount}（${sign2}）
+結果：${sign1} × ${sign2} = ${finalSign}`,
+    raw: { diff, publicCount, playerTotalRaw, bankerTotalRaw, finalSign }
   };
 }
 
